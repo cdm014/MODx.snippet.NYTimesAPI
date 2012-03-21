@@ -1,4 +1,7 @@
-<?
+<?php
+//*
+$output = "Hello World!";
+//*/
 /***************
  * New York Times BestSeller Snippets
  * This is a snippet for MODx and is designed
@@ -8,6 +11,9 @@
  *
  * version 0.0.1
  ***************/
+//debug messages
+$debug = array();
+$debug['debug'] = false;
 //Config Information
 $apikey = "2d26418b92e8de9246857b019df5fce2:13:57859835"; //our api key
 $catalog_search_url = "http://innopac.rpl.org/search/{arg}?SEARCH={term}"; //format of catalog search url
@@ -18,15 +24,14 @@ $listTitleClass = "NYTimesListTitle";
 $listDateClass = "NYTimesListDate";
 
 $bookClass = "book";
-$bookDetailsDivClass = "details";
+$bookDetailsClass = "details";
 $bookRankClass = "rank";
 $bookTitleClass = "title";
 $bookDescriptionClass = "description";
 $bookISBNsClass = "isbns";
 $isbnClass = "isbn";
 $isbnLinkClass="isbnLink";
-
-
+$debug['test'] = 'test message';
 class NYTimes {
 	var $date;
 	var $list_name;
@@ -41,10 +46,11 @@ class NYTimes {
 		$this->date = date_create(); //assume we want the most recent list
 		$this->api_key = $keyval; //pass in our key
 		$this->error = NULL;
-		$this->linkurl = $link_string //pass in the link format
+		$this->linkurl = $link_string; //pass in the link format
 		$this->title_arg = $titleArgument;
 		$this->isbn_arg = $isbnArgument;
 		$this->setlist($list_number);
+		$debug['constructor message'] = "NYTimes Constructor called";
 	}
 	
 	function setlist($list_number) {
@@ -125,34 +131,42 @@ class NYTimes {
 	}
 }
 
-$myList = new NYTimes (1, $apikey, $rpl_string, "t", "i"); //pull hardcover nonfiction
+$myList = new NYTimes(1, $apikey, $rpl_string, "t", "i"); //pull hardcover nonfiction
+
 //Loop through the $myList->data to build the placeholder for the list
 $listItems = "";
 foreach ($myList->data->results->book as $book) {
+	
 	$ISBNstring = '';
 	//first we have to populate the isbns
 	foreach ($book->isbns->isbn as $isbn) {
 		$ISBNstring .= $modx->getChunk('BestSeller_isbn_template',array(
 			'isbn.div.class' => $isbnClass,
-			'isbn.link.text' => $isbn->isbn13
+			'isbn.link.text' => (string)$isbn->isbn13
 			
 		));
+		$debug[] = $isbn->isbn13;
 	}
 	//populate all the placeholders in the Item Template
-	$listItems .= $modx->getChunk('BestSeller_Item_template' array(
+	$listItems .= $modx->getChunk('BestSeller_Item_template',array(
 		'book.div.classes' => $bookClass,
 		'book.details.div.classes' => $bookDetailsClass,
 		'book.rank.classes' => $bookRankClass,
 		'book.title.classes' => $bookTitleClass,
 		'book.description.classes' => $bookDescriptionClass,
 		'book.isbns.div.classes' => $bookISBNsClass,
-		'book.isbns' => $ISBNstring;
-		'book.rank.text' => $book->rank,
-		'book.title.text' => $book->book_details->book_detail[0]->title,
+		'book.isbns' => $ISBNstring,
+		'book.rank.text' => (string)$book->rank,
+		'book.title.text' => (string)$book->book_details->book_detail[0]->title,
 		
-		'book.description.text' => $book->book_details->book_detail[0]->description
-	));
+		'book.description.text' =>(string)$book->book_details->book_detail[0]->description
+	
+) );
+	$debug[] = $book->rank;
 }
+
+
+//*
 //now that I have the individual items built I can put them inside the list template
 $output = $modx->getChunk('BestSeller_list_template', array(
 	'list.div.classes' => $listClass,
@@ -162,8 +176,11 @@ $output = $modx->getChunk('BestSeller_list_template', array(
 	'list.title.text' => preg_replace("/-/", " ", $myList->list_name),
 	'list.date.text' => $myList->date->format("F d, Y")
 ));	
+//*/
+if ($debug[$debug]) {
+	$output .= '<pre>'.print_r($debug,true).'</pre>';
+}
 
 return $output;
-	
  
  
