@@ -9,11 +9,11 @@ $output = "Hello World!";
  * of php and html as well as add better customization
  * by allowing placeholders for adding/assigning css classes
  *
- * version 0.0.1
+ * version 0.0.6
  ***************/
 //debug messages
 $debug = array();
-$debug['debug'] = true;
+$debug['debug'] = false;
 //Config Information
 $apikey = "2d26418b92e8de9246857b019df5fce2:13:57859835"; //our api key
 $catalog_search_url = "http://innopac.rpl.org/search/{arg}?SEARCH={term}"; //format of catalog search url
@@ -31,6 +31,7 @@ $bookDescriptionClass = "description";
 $bookISBNsClass = "isbns";
 $isbnClass = "isbn";
 $isbnLinkClass="isbnLink";
+$bookAuthorClass = "author";
 $debug['test'] = 'test message';
 if (!class_exists("NYTimes")) {
 	class NYTimes {
@@ -140,7 +141,7 @@ if (!class_exists("NYTimes")) {
 			foreach ($this->data->results->book as $book) {
 				$ISBNstring = '';
 				foreach($book->isbns->isbn as $isbn) {
-					$debug[] = (string)$isbn->isbn13;
+					$debug['isbns'][] = (string)$isbn->isbn13;
 					$ISBNstring .= $modx->getChunk('BestSeller_isbn_template',array(
 						'isbn.div.class' => $isbnClass,
 						'isbn.link.text' => (string)$isbn->isbn13
@@ -148,7 +149,31 @@ if (!class_exists("NYTimes")) {
 					));
 					
 				}
+				//populate all the placeholders in the Item Template
+				$listItems .= $modx->getChunk('BestSeller_Item_template',array(
+					'book.div.classes' => $bookClass,
+					'book.details.div.classes' => $bookDetailsClass,
+					'book.rank.classes' => $bookRankClass,
+					'book.title.classes' => $bookTitleClass,
+					'book.description.classes' => $bookDescriptionClass,
+					'book.isbns.div.classes' => $bookISBNsClass,
+					'book.isbns' => $ISBNstring,
+					'book.rank.text' => (string)$book->rank,
+					'book.title.text' => (string)$book->book_details->book_detail[0]->title,
+					'book.author.text'=> (string)$book->book_details->book_detail[0]->author,
+					'book.author.classes' => $bookAuthorClass,
+					'book.description.text' =>(string)$book->book_details->book_detail[0]->description
+				
+				) );
 			}
+			$output = $modx->getChunk('BestSeller_list_template', array(
+				'list.div.classes' => $listClass,
+				'list.title.classes' => $listTitleClass,
+				'list.date.classes' => $listDateClass,
+				'list.items' => $listItems,
+				'list.title.text' => preg_replace("/-/", " ", $this->list_name),
+				'list.date.text' => $this->date->format("F d, Y")
+			));	
 			return $output;
 
 		
@@ -207,10 +232,10 @@ $output = $modx->getChunk('BestSeller_list_template', array(
 $output .= $myList->display($debug);
 
 //*/
-
+if ($debug['debug']) {
 	$output .= '<pre>'.print_r($debug,true).'</pre>';
 
-
+}
 
 return $output;
  
