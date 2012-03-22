@@ -9,7 +9,7 @@
  * of php and html as well as add better customization
  * by allowing placeholders for adding/assigning css classes
  *
- * version 0.1.0
+ * version 0.3.0
  * Properties for this snippet:
  * bookClass
  * listClass
@@ -35,32 +35,31 @@ $apikey = $modx->getOption('api_key',$scriptProperties,"CHANGE ME"); //our api k
 $catalog_search_url = "http://innopac.rpl.org/search/{arg}?SEARCH={term}"; //format of catalog search url
 //these will be used for styling in the templates
 //I'm making them variables so that later I can make them properties of the snippet
-$listClass = "NYTimesList";
-$listTitleClass = "NYTimesListTitle";
-$listDateClass = "NYTimesListDate";
+$listClass = $modx->getOption('listClass',$scriptProperties,"NYTimesList");
+$listTitleClass = $modx->getOption('listTitleclass',$scriptProperties,"NYTimesListTitle");
+$listDateClass = $modx->getOption('listDateClass',$scriptProperties,"NYTimesListDate");
+$bookClass = $modx->getOption('bookClass',$scriptProperties,"book");
+$bookDetailsClass = $modx->getOption('bookDetailsClass',$scriptProperties,"details");
+$bookRankClass = $modx->getOption('bookRankClass',$scriptProperties,"rank");
+$bookTitleClass = $modx->getOption('bookTitleClass',$scriptProperties,"title");
+$bookDescriptionClass = $modx->getOption('bookDescriptionClass',$scriptProperties,"description");
+$bookISBNsClass = $modx->getOption('bookISBNsClass',$scriptProperties,"isbns");
+$isbnClass = $modx->getOption('isbnClass',$scriptProperties,"isbn");
+$isbnLinkClass= $modx->getOption('isbnLinkClass',$scriptProperties,"isbnLink");
+$bookAuthorClass = $modx->getOption('bookAuthorClass',$scriptProperties,"author");
 
-$bookClass = "book";
-$bookDetailsClass = "details";
-$bookRankClass = "rank";
-$bookTitleClass = "title";
-$bookDescriptionClass = "description";
-$bookISBNsClass = "isbns";
-$isbnClass = "isbn";
-$isbnLinkClass="isbnLink";
-$bookAuthorClass = "author";
-
-$bsOptions['listClass'] = "NYTimesList";
-$bsOptions['listTitleClass'] = "NYTimesListTitle";
-$bsOptions['listDateClass'] = "NYTimesListDate";
-$bsOptions['bookClass'] = $modx->getOption('bookClass',$scriptProperties,'book1');
-$bsOptions['bookDetailsClass'] = "details";
-$bsOptions['bookRankClass'] = "rank";
-$bsOptions['bookTitleClass'] = "title";
-$bsOptions['bookDescriptionClass']="description";
-$bsOptions['bookISBNsClass'] = "isbns";
-$bsOptions['isbnClass'] = "isbn";
-$bsOptions['isbnLinkClass'] = "isbnLink";
-$bsOptions['bookAuthorClass'] = "author";
+$bsOptions['listClass'] = $listClass;
+$bsOptions['listTitleClass'] = $listTitleClass;
+$bsOptions['listDateClass'] = $listDateClass;
+$bsOptions['bookClass'] = $bookClass;
+$bsOptions['bookDetailsClass'] = $bookDetailsClass;
+$bsOptions['bookRankClass'] = $bookRankClass;
+$bsOptions['bookTitleClass'] = $bookTitleClass;
+$bsOptions['bookDescriptionClass']= $bookDescriptionClass;
+$bsOptions['bookISBNsClass'] = $bookISBNsClass;
+$bsOptions['isbnClass'] = $isbnClass;
+$bsOptions['isbnLinkClass'] = $isbnLinkClass;
+$bsOptions['bookAuthorClass'] = $bookAuthorClass;
 
 
 $debug['test'] = 'test message';
