@@ -158,11 +158,15 @@ select#room {
 .sidebar li {
      line-height: 1.5em;
 }
+div.NYTimesList {
+	background: #e3f1ff;
+}
 
 div.book {
-     border-bottom: 1px dotted gray;
+     
 	 clear:both;
 	 margin-bottom: .5em;
+	 background: #ffffff;
 }
 div.book:hover {
      background: #E3F1FF;
@@ -187,6 +191,8 @@ div.book > div.isbns > div.isbn {
 span.NYTimesListTitle {
 	display: block;
 	font-size: 1.25em;
+	line-height: 1.25em;
+	background: #a5c6e7;
 }
 span.NYTimesListDate {
 	display:block;
@@ -195,4 +201,8 @@ span.NYTimesListDate {
 }
 .NYTimesList {
 	margin-bottom: 3em;
+}
+
+div.book > div.details > div.description {
+	clear: both;
 }

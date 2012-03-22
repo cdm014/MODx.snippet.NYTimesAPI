@@ -9,7 +9,21 @@
  * of php and html as well as add better customization
  * by allowing placeholders for adding/assigning css classes
  *
- * version 0.0.6
+ * version 0.1.0
+ * Properties for this snippet:
+ * bookClass
+ * listClass
+ * listTitleClass
+ * listDateClass
+ * bookDetailsClass
+ * bookDescriptionClass
+ * bookRankClass
+ * bookTitleClass
+ * bookAuthorClass
+ * bookISBNsClass
+ * isbnClass
+ * isbnLinkClass
+ * listNumber
  ***************/
 //debug messages
 $debug = array();
@@ -36,7 +50,7 @@ $bookAuthorClass = "author";
 $bsOptions['listClass'] = "NYTimesList";
 $bsOptions['listTitleClass'] = "NYTimesListTitle";
 $bsOptions['listDateClass'] = "NYTimesListDate";
-$bsOptions['bookClass'] = "book";
+$bsOptions['bookClass'] = $modx->getOption('bookClass',$scriptProperties,'book1');
 $bsOptions['bookDetailsClass'] = "details";
 $bsOptions['bookRankClass'] = "rank";
 $bsOptions['bookTitleClass'] = "title";
@@ -197,8 +211,8 @@ if (!class_exists("NYTimes")) {
 	
 	
 }
-
-$myList = new NYTimes(1, $apikey, $rpl_string, "t", "i",$modx); //pull hardcover nonfiction
+$listNumber = $modx->getOption('listNumber',$scriptProperties,2);
+$myList = new NYTimes($listNumber, $apikey, $rpl_string, "t", "i",$modx); //pull hardcover nonfiction
 /*
 //Loop through the $myList->data to build the placeholder for the list
 $listItems = "";
