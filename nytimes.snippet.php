@@ -29,7 +29,9 @@
 $debug = array();
 $debug['debug'] = false;
 //Config Information
-$apikey = "2d26418b92e8de9246857b019df5fce2:13:57859835"; //our api key
+$listNumber = $modx->getOption('listNumber',$scriptProperties,2);
+
+$apikey = $modx->getOption('api_key',$scriptProperties,"CHANGE ME"); //our api key
 $catalog_search_url = "http://innopac.rpl.org/search/{arg}?SEARCH={term}"; //format of catalog search url
 //these will be used for styling in the templates
 //I'm making them variables so that later I can make them properties of the snippet
@@ -138,6 +140,10 @@ if (!class_exists("NYTimes")) {
 		$list = $this->list_name;
 		//get our api-key
 		$apikey = $this->api_key;
+		if ($apikey == "CHANGE ME") {
+			$getnewlist = 0;
+			$this->error = "No NYTimes API key. You must change the default setting or pass the api key in the snippet call";
+		}
 		//ensure we download at least once
 		$getnewlist = 1;
 		$daysback = 0;
@@ -164,45 +170,55 @@ if (!class_exists("NYTimes")) {
 		}
 		function display(&$debug,$bsOptions ) {
 			$modx = $this->modx;
+			$output = $this->error;
 			//$output = "Hello World";
 			$listItems = "";
-			
-			foreach ($this->data->results->book as $book) {
-				$ISBNstring = '';
-				foreach($book->isbns->isbn as $isbn) {
-					$debug['isbns'][] = (string)$isbn->isbn13;
-					$ISBNstring .= $modx->getChunk('BestSeller_isbn_template',array(
-						'isbn.div.class' => $bsOptions['isbnClass'],
-						'isbn.link.text' => (string)$isbn->isbn13
+			if (!$this->error) {	
+				foreach ($this->data->results->book as $book) {
+					$ISBNstring = '';
+					foreach($book->isbns->isbn as $isbn) {
+						$debug['isbns'][] = (string)$isbn->isbn13;
+						$isbnlink = preg_replace("/{arg}/",$this->isbn_arg,$this->linkurl);
+						$isbnlink = preg_replace("/{term}/",(string) $isbn->isbn13,$isbnlink);
 						
-					));
+						$ISBNstring .= $modx->getChunk('BestSeller_isbn_template',array(
+							'isbn.div.class' => $bsOptions['isbnClass'],
+							'isbn.link.text' => (string)$isbn->isbn13,
+							'isbn.link.url' => $isbnlink
+							
+							
+							
+						));
+						
+					}
+					//populate all the placeholders in the Item Template
+					$listItems .= $modx->getChunk('BestSeller_Item_template',array(
+						'book.div.classes' => $bsOptions['bookClass'],
+						'book.details.div.classes' => $bsOptions['bookDetailsClass'],
+						'book.rank.classes' => $bsOptions['bookRankClass'],
+						'book.title.classes' => $bsOptions['bookTitleClass'],
+						'book.description.classes' => $bsOptions['bookDescriptionClass'],
+						'book.isbns.div.classes' => $bsOptions['bookISBNsClass'],
+						'book.isbns' => $ISBNstring,
+						'book.rank.text' => (string)$book->rank,
+						'book.title.text' => (string)$book->book_details->book_detail[0]->title,
+						'book.author.text'=> (string)$book->book_details->book_detail[0]->author,
+						'book.author.classes' => $bsOptions['bookAuthorClass'],
+						'book.description.text' =>(string)$book->book_details->book_detail[0]->description
 					
+					) );
 				}
-				//populate all the placeholders in the Item Template
-				$listItems .= $modx->getChunk('BestSeller_Item_template',array(
-					'book.div.classes' => $bsOptions['bookClass'],
-					'book.details.div.classes' => $bsOptions['bookDetailsClass'],
-					'book.rank.classes' => $bsOptions['bookRankClass'],
-					'book.title.classes' => $bsOptions['bookTitleClass'],
-					'book.description.classes' => $bsOptions['bookDescriptionClass'],
-					'book.isbns.div.classes' => $bsOptions['bookISBNsClass'],
-					'book.isbns' => $ISBNstring,
-					'book.rank.text' => (string)$book->rank,
-					'book.title.text' => (string)$book->book_details->book_detail[0]->title,
-					'book.author.text'=> (string)$book->book_details->book_detail[0]->author,
-					'book.author.classes' => $bsOptions['bookAuthorClass'],
-					'book.description.text' =>(string)$book->book_details->book_detail[0]->description
-				
-				) );
+				$output = $modx->getChunk('BestSeller_list_template', array(
+					'list.div.classes' => $bsOptions['listClass'],
+					'list.title.classes' => $bsOptions['listTitleClass'],
+					'list.date.classes' => $bsOptions['listDateClass'],
+					'list.items' => $listItems,
+					'list.title.text' => preg_replace("/-/", " ", $this->list_name),
+					'list.date.text' => $this->date->format("F d, Y")
+				));	
+			} else {
+				$output = $this->error;
 			}
-			$output = $modx->getChunk('BestSeller_list_template', array(
-				'list.div.classes' => $bsOptions['listClass'],
-				'list.title.classes' => $bsOptions['listTitleClass'],
-				'list.date.classes' => $bsOptions['listDateClass'],
-				'list.items' => $listItems,
-				'list.title.text' => preg_replace("/-/", " ", $this->list_name),
-				'list.date.text' => $this->date->format("F d, Y")
-			));	
 			return $output;
 
 		
@@ -212,7 +228,7 @@ if (!class_exists("NYTimes")) {
 	
 }
 $listNumber = $modx->getOption('listNumber',$scriptProperties,2);
-$myList = new NYTimes($listNumber, $apikey, $rpl_string, "t", "i",$modx); //pull hardcover nonfiction
+$myList = new NYTimes($listNumber, $apikey, $catalog_search_url, "t", "i",$modx); //pull hardcover nonfiction
 /*
 //Loop through the $myList->data to build the placeholder for the list
 $listItems = "";
@@ -268,5 +284,3 @@ if ($debug['debug']) {
 }
 
 return $output;
- 
- 
