@@ -32,6 +32,21 @@ $bookISBNsClass = "isbns";
 $isbnClass = "isbn";
 $isbnLinkClass="isbnLink";
 $bookAuthorClass = "author";
+
+$bsOptions['listClass'] = "NYTimesList";
+$bsOptions['listTitleClass'] = "NYTimesListTitle";
+$bsOptions['listDateClass'] = "NYTimesListDate";
+$bsOptions['bookClass'] = "book";
+$bsOptions['bookDetailsClass'] = "details";
+$bsOptions['bookRankClass'] = "rank";
+$bsOptions['bookTitleClass'] = "title";
+$bsOptions['bookDescriptionClass']="description";
+$bsOptions['bookISBNsClass'] = "isbns";
+$bsOptions['isbnClass'] = "isbn";
+$bsOptions['isbnLinkClass'] = "isbnLink";
+$bsOptions['bookAuthorClass'] = "author";
+
+
 $debug['test'] = 'test message';
 if (!class_exists("NYTimes")) {
 	class NYTimes {
@@ -133,7 +148,7 @@ if (!class_exists("NYTimes")) {
 				}
 			}
 		}
-		function display(&$debug ) {
+		function display(&$debug,$bsOptions ) {
 			$modx = $this->modx;
 			$output = "Hello World";
 			$listItems = "";
@@ -143,7 +158,7 @@ if (!class_exists("NYTimes")) {
 				foreach($book->isbns->isbn as $isbn) {
 					$debug['isbns'][] = (string)$isbn->isbn13;
 					$ISBNstring .= $modx->getChunk('BestSeller_isbn_template',array(
-						'isbn.div.class' => $isbnClass,
+						'isbn.div.class' => $bsOptions['isbnClass'],
 						'isbn.link.text' => (string)$isbn->isbn13
 						
 					));
@@ -151,25 +166,25 @@ if (!class_exists("NYTimes")) {
 				}
 				//populate all the placeholders in the Item Template
 				$listItems .= $modx->getChunk('BestSeller_Item_template',array(
-					'book.div.classes' => $bookClass,
-					'book.details.div.classes' => $bookDetailsClass,
-					'book.rank.classes' => $bookRankClass,
-					'book.title.classes' => $bookTitleClass,
-					'book.description.classes' => $bookDescriptionClass,
-					'book.isbns.div.classes' => $bookISBNsClass,
+					'book.div.classes' => $bsOptions['bookClass'],
+					'book.details.div.classes' => $bsOptions['bookDetailsClass'],
+					'book.rank.classes' => $bsOptions['bookRankClass'],
+					'book.title.classes' => $bsOptions['bookTitleClass'],
+					'book.description.classes' => $bsOptions['bookDescriptionClass'],
+					'book.isbns.div.classes' => $bsOptions['bookISBNsClass'],
 					'book.isbns' => $ISBNstring,
 					'book.rank.text' => (string)$book->rank,
 					'book.title.text' => (string)$book->book_details->book_detail[0]->title,
 					'book.author.text'=> (string)$book->book_details->book_detail[0]->author,
-					'book.author.classes' => $bookAuthorClass,
+					'book.author.classes' => $bsOptions['bookAuthorClass'],
 					'book.description.text' =>(string)$book->book_details->book_detail[0]->description
 				
 				) );
 			}
 			$output = $modx->getChunk('BestSeller_list_template', array(
-				'list.div.classes' => $listClass,
-				'list.title.classes' => $listTitleClass,
-				'list.date.classes' => $listDateClass,
+				'list.div.classes' => $bsOptions['listClass'],
+				'list.title.classes' => $bsOptions['listTitleClass'],
+				'list.date.classes' => $bsOptions['listDateClass'],
 				'list.items' => $listItems,
 				'list.title.text' => preg_replace("/-/", " ", $this->list_name),
 				'list.date.text' => $this->date->format("F d, Y")
@@ -228,8 +243,8 @@ $output = $modx->getChunk('BestSeller_list_template', array(
 	'list.title.text' => preg_replace("/-/", " ", $myList->list_name),
 	'list.date.text' => $myList->date->format("F d, Y")
 ));	
-//*/
-$output .= $myList->display($debug);
+/*/
+$output .= $myList->display($debug,$bsOptions);
 
 //*/
 if ($debug['debug']) {

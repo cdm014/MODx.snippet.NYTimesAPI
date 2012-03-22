@@ -1,0 +1,193 @@
+h1, h2, h3, h4, h5 {
+color: #2e4a8d;
+font-family: Arial, sans;
+}
+
+* {
+font-size:12px;
+
+}
+
+body {
+background: url('[[++site_url]]assets/images/rpl-blue2.gif') #a5c6e7 repeat-x;
+}
+
+p {
+margin-bottom: 1em;
+}
+
+div#header {
+width: 100%;
+background: white;
+border: 0;
+border-bottom:5px solid black;
+}
+
+div#header h1 {
+text-align:center;
+font-size:82px;
+line-height:1.618;
+}
+
+div#body {
+	background: #fff;
+}
+
+div#menu {
+  margin-bottom:1em;
+  text-align: center;
+  background: #2e4a8d;
+  color: #fff;
+  padding-top:3px;
+  padding-bottom:3px;
+  font-family: Arial, sans;
+  border-bottom: 1px solid #a5c6e7;
+}
+
+div#menu > ul {
+  
+}
+
+div#menu > ul > li {
+     display:inline;
+     border-right: 1px solid #a5c6e7;
+     padding-left: 0.5em;
+     padding-right: 0.5em;
+     font-size:1.25em;
+     
+}
+
+div#menu > ul > li.last {
+     border-right: 0px;
+     padding-right: 0em;
+}
+
+div#menu > ul > li.first {
+     padding-left: 0em;
+}
+div#menu > ul > li > a {
+     color: #fff;
+}
+
+div#menu > div > a {
+     color: #fff;
+     font-size: 1.25em;
+}
+
+.hp_block {
+margin-bottom:1em;
+margin-top:1em;
+}
+
+h1.pageTitle {
+     font-size: 1.5em;
+     text-align: center;
+}
+
+.x-form-trigger {
+     display:block;
+    width: 17px;
+    height:22px;
+    border-bottom-color:#a5c6e7;
+    border-bottom-width:1px;
+}
+.x-form-date-trigger {
+    background-image: url("/assets/images/Ext/date-trigger.gif");
+}
+.x-form-trigger-wrap {
+     display: inline;
+}
+
+#requestTable, #roomTable {
+     border: 1px solid #2e4a8d;
+}
+
+#requestTable td, #roomTable td {
+     border: 1px solid #2e4a8d;
+}
+#requestTable th, #roomTable th {
+    border: 1px solid #2e4a8d;
+    padding: 0.5em;
+}
+
+#requestTable td, #roomTable td {
+     padding: 0.5em;
+}
+#requestTable > thead, #roomTable > thead {
+     background-image: url('http://test.rpl.org/assets/css/jqueryui/images/ui-bg_highlight-soft_75_a5c6e7_1x100.png');
+     background-position: left bottom;
+     background-repeat: repeat-x;
+
+    line-height: 1.5em;
+}
+
+select#room {
+    width: 300px;
+}
+
+#slider {
+     
+}
+
+.nivoSlider img {
+    position:absolute;
+    top:0px;
+    left:0px;
+    display:none;
+}
+.nivoSlider > a {
+    border:0;
+	top: 0px;
+	left: 0px;
+    display:block;
+}
+
+.nivo-slice {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+.sidebar {
+     
+     border-left: 1px solid #a5c6e7;
+     border-bottom: 1px solid #a5c6e7;
+     padding-left: 9px;
+}
+
+.sidebar li {
+     line-height: 1.5em;
+}
+
+div.book {
+     border-bottom: 1px dotted gray;
+	 clear:both;
+	 margin-bottom: .5em;
+}
+div.book:hover {
+     background: #E3F1FF;
+}
+div.book > div.details > div {
+	float: left;
+	margin-right: 1em;
+}
+
+div.book > div.details > div.title {
+	text-decoration:underline;
+}
+div.book > div.isbns  {
+	clear:both;
+	min-height: 1.1em;
+}
+
+div.book > div.isbns > div.isbn {
+	float: left;
+	margin-right: 1em;
+}
+span.NYTimesListTitle {
+	display: block;
+	font-size: 1.25em;
+}
+span.NYTimesListDate {
+	padding-left:2em;
+}
