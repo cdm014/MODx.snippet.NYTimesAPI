@@ -166,6 +166,7 @@ div.NYTimesList {
 .NYTimesListTitle {
 	display:block;
 	font-size: 1.25em;
+	line-height: 1.25em;
 	padding-left: 1em;
 	background: #a5c6e7;
 }
@@ -187,6 +188,9 @@ div.book > div.details {
 	float: left;
 	width: 840px;
 	padding-left: 1em;
+}
+div.book > div.details > div.title {
+	text-decoration: underline;
 }
 div.isbn {
 	float: left;
