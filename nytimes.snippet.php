@@ -47,6 +47,7 @@ $bookISBNsClass = $modx->getOption('bookISBNsClass',$scriptProperties,"isbns");
 $isbnClass = $modx->getOption('isbnClass',$scriptProperties,"isbn");
 $isbnLinkClass= $modx->getOption('isbnLinkClass',$scriptProperties,"isbnLink");
 $bookAuthorClass = $modx->getOption('bookAuthorClass',$scriptProperties,"author");
+$bookJacketClass = $modx->getOption('bookJacketClass',$scriptProperties,"jacket");
 
 $bsOptions['listClass'] = $listClass;
 $bsOptions['listTitleClass'] = $listTitleClass;
@@ -60,6 +61,7 @@ $bsOptions['bookISBNsClass'] = $bookISBNsClass;
 $bsOptions['isbnClass'] = $isbnClass;
 $bsOptions['isbnLinkClass'] = $isbnLinkClass;
 $bsOptions['bookAuthorClass'] = $bookAuthorClass;
+$bsOptions['bookJacketClass'] = $bookJacketClass;
 
 
 $debug['test'] = 'test message';
@@ -174,6 +176,12 @@ if (!class_exists("NYTimes")) {
 			$listItems = "";
 			if (!$this->error) {	
 				foreach ($this->data->results->book as $book) {
+					$mainISBN = $book->isbns->isbn[0]->isbn13;
+					$jacket_string = "";
+					//*
+					$jacket_string = "http://contentcafe2.btol.com/ContentCafe/Jacket.aspx?UserID=RPL53198&Password=CC19873&Return=1&Type=S&Value={ISBN}&";
+					$jacket_string = preg_replace("/{ISBN}/",$mainISBN,$jacket_string);
+					//*/
 					$ISBNstring = '';
 					foreach($book->isbns->isbn as $isbn) {
 						$debug['isbns'][] = (string)$isbn->isbn13;
@@ -192,6 +200,8 @@ if (!class_exists("NYTimes")) {
 					}
 					//populate all the placeholders in the Item Template
 					$listItems .= $modx->getChunk('BestSeller_Item_template',array(
+						'book.jacket.url' => $jacket_string,
+						'book.jacket.classes' => $bsOptions['bookJacketClass'],
 						'book.div.classes' => $bsOptions['bookClass'],
 						'book.details.div.classes' => $bsOptions['bookDetailsClass'],
 						'book.rank.classes' => $bsOptions['bookRankClass'],

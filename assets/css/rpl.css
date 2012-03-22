@@ -158,51 +158,37 @@ select#room {
 .sidebar li {
      line-height: 1.5em;
 }
+
 div.NYTimesList {
-	background: #e3f1ff;
+	background: #D1E8FF;
+	margin-bottom: 3em;
+}
+.NYTimesListTitle {
+	display:block;
+	font-size: 1.25em;
+	padding-left: 1em;
+	background: #a5c6e7;
 }
 
 div.book {
-     
-	 clear:both;
-	 margin-bottom: .5em;
-	 background: #ffffff;
-}
-div.book:hover {
-     background: #E3F1FF;
-}
-div.book > div.details > div {
-	float: left;
-	margin-right: 1em;
-}
-
-div.book > div.details > div.title {
-	text-decoration:underline;
-}
-div.book > div.isbns  {
 	clear:both;
-	min-height: 1.1em;
+	margin-bottom: 1em;
+	background: white;
+	min-height: 120px;
 }
 
-div.book > div.isbns > div.isbn {
+div.book > .jacket {
+	width: 80px;
+	height: 120px;
+	float: left;
+	
+}
+div.book > div.details {
+	float: left;
+	width: 840px;
+	padding-left: 1em;
+}
+div.isbn {
 	float: left;
 	margin-right: 1em;
-}
-span.NYTimesListTitle {
-	display: block;
-	font-size: 1.25em;
-	line-height: 1.25em;
-	background: #a5c6e7;
-}
-span.NYTimesListDate {
-	display:block;
-	padding-left:2em;
-	margin-bottom: 1em;
-}
-.NYTimesList {
-	margin-bottom: 3em;
-}
-
-div.book > div.details > div.description {
-	clear: both;
 }
