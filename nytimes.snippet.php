@@ -1,6 +1,6 @@
 <?php
 //*
-$output = "Hello World!";
+//$output = "Hello World!";
 //*/
 /***************
  * New York Times BestSeller Snippets
@@ -150,7 +150,7 @@ if (!class_exists("NYTimes")) {
 		}
 		function display(&$debug,$bsOptions ) {
 			$modx = $this->modx;
-			$output = "Hello World";
+			//$output = "Hello World";
 			$listItems = "";
 			
 			foreach ($this->data->results->book as $book) {
@@ -244,6 +244,7 @@ $output = $modx->getChunk('BestSeller_list_template', array(
 	'list.date.text' => $myList->date->format("F d, Y")
 ));	
 /*/
+
 $output .= $myList->display($debug,$bsOptions);
 
 //*/

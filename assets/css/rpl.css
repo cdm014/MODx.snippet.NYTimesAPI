@@ -189,5 +189,10 @@ span.NYTimesListTitle {
 	font-size: 1.25em;
 }
 span.NYTimesListDate {
+	display:block;
 	padding-left:2em;
+	margin-bottom: 1em;
+}
+.NYTimesList {
+	margin-bottom: 3em;
 }
